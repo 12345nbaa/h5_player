@@ -37,18 +37,23 @@
 
 
     //get url
-    var url = window.location;
+    var url = window.location.href;
     console.log('url =' + url);
 
-    //businessId = getUrl(url, 'BusinessId');
-    //roomId = getUrl(url, 'RoomId');
-    //anchorOpenId = getUrl(url, 'AnchorOpenId');
-    //clientType = getUrl(url, 'ClientType');
-    //
-    //console.log('businessId >>>>>>' + businessId);
-    //console.log('roomId >>>>>>' + roomId);
-    //console.log('visitorOpenId >>>>>>' + visitorOpenId);
-    //console.log('clientType >>>>>>' + clientType);
+    businessId = getUrl(url, 'BusinessId');
+    roomId = getUrl(url, 'RoomId');
+    anchorOpenId = getUrl(url, 'AnchorOpenId');
+    clientType = getUrl(url, 'ClientType');
+
+    businessId = Number(businessId);
+    roomId = Number(roomId);
+    anchorOpenId = Number(anchorOpenId);
+    clientType = Number(clientType);
+
+    console.log('businessId >>>>>>' + businessId);
+    console.log('roomId >>>>>>' + roomId);
+    console.log('anchorOpenId >>>>>>' + anchorOpenId);
+    console.log('clientType >>>>>>' + clientType);
 
 
     //需要添加播放按钮
@@ -61,8 +66,6 @@
 
 
     postGetToken(getTokenUrl);
-    //initRongIMClient("iyIgQ021S9uSBAKzk6uovkRfKpMf6clJSnaNrP74eU+PL6zTUUv3yLnO4xKtLdKm3cM7dFmCNy29s6UfD15c6rRfbR6/yc3Z");
-    //postGetUserInfo(getUserInfo);
 
     function ksvcPause()
     {
@@ -73,12 +76,12 @@
 
         document.getElementById("pause_button").style.display = "none";
 
-
     }
 
     function getUrl(str, name) {
         var arr, reg = new RegExp('(^|)' + name + '=([^&\\s]*)(|$)');
         // window.console.log(reg, str.match(reg));
+        console.log('reg =' + reg + "<<>>str.match(reg)=" + str.match(reg));
         if (arr = str.match(reg)) {
             return decodeURI(arr[2]);
         } else {
@@ -121,13 +124,13 @@
     function postGetToken(url) {
 
         var sendData = {
-            "BusinessId" : 1000,
-            "RoomId": 50,
-            "AnchorOpenId": 9
+            //"BusinessId" : 1000,
+            //"RoomId": 50,
+            //"AnchorOpenId": 9
 
-            //"BusinessId" : businessId,
-            //"RoomId": roomId,
-            //"AnchorOpenId": anchorOpenId
+            "BusinessId" : businessId,
+            "RoomId": roomId,
+            "AnchorOpenId": anchorOpenId
         };
 
         console.log(sendData);
@@ -324,15 +327,15 @@
     function postGetUserInfo(url) {
 
         var sendData = {
-            "BusinessId" : 1000,
-            "RoomId": 50,
-            "VisitorOpenId": 9,
-            "ClientType":1
+            //"BusinessId" : 1000,
+            //"RoomId": 50,
+            //"VisitorOpenId": 9,
+            //"ClientType":1
 
-            //"BusinessId" : businessId,
-            //"RoomId": roomId,
-            //"VisitorOpenId": visitorOpenId,
-            //"ClientType":clientType
+            "BusinessId" : businessId,
+            "RoomId": roomId,
+            "VisitorOpenId": visitorOpenId,
+            "ClientType":clientType
         };
 
         console.log(sendData);
