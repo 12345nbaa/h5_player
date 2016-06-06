@@ -4,20 +4,6 @@
 
     var myVideo = document.getElementById("share_video");
 
-    //get url
-    var url = window.location;
-    console.log('url =' + url);
-
-
-    //需要添加播放按钮
-    document.getElementById("pause_button").onclick = function() {ksvcPause()};
-    document.getElementById("anchor").onclick = function() {ksvcAnchor()};
-    document.getElementById("download").onclick = function() {ksvcDownload()};
-
-    document.getElementById("pop_close").onclick = function() {ksvcClose()};
-    document.getElementById("pop_down").onclick = function() {ksvcDown()};
-
-
     //接口
     var getTokenUrl = "http://183.131.21.162:8000/v1.0/account/visitorcreatetoken";
     var getUserInfo = "http://183.131.21.162:8000/v1.0/room/enterroombyh5";
@@ -30,23 +16,17 @@
     var roomId;
     var anchorOpenId;
 
-
     //data second from app
-
-    //var businessId;
-    //var roomId;
     var visitorOpenId;
     var clientType;
 
 
-    var token;
-
     // 接受数据
     var responseTokenData;
     var responseUserData;
+    var token;
 
     //用户具体信息
-    var anchorOpenId;
     var headPicUrl;
     var name;
     var roomNumber;
@@ -56,23 +36,33 @@
     var liveType;
 
 
-    //var responseData = {
-    //    "AnchorOpenId": "11",
-    //    "Url": "Fifth Avenue New York 666",
-    //    "Name": "bill gate",
-    //    "RoomNumber": "1234567",
-    //    "Poster": "",
-    //    "PullStreamUrl": "",
-    //    "AppDownLoadUrl": "",
-    //    "RoomUserList": "",
-    //    "LiveType": "",
-    //    "ViewerNum": "668888"
-    //};
+    //get url
+    var url = window.location;
+    console.log('url =' + url);
+
+    //businessId = getUrl(url, 'BusinessId');
+    //roomId = getUrl(url, 'RoomId');
+    //anchorOpenId = getUrl(url, 'AnchorOpenId');
+    //clientType = getUrl(url, 'ClientType');
+    //
+    //console.log('businessId >>>>>>' + businessId);
+    //console.log('roomId >>>>>>' + roomId);
+    //console.log('visitorOpenId >>>>>>' + visitorOpenId);
+    //console.log('clientType >>>>>>' + clientType);
 
 
-    //postGetToken(getTokenUrl);
-    initRongIMClient("iyIgQ021S9uSBAKzk6uovkRfKpMf6clJSnaNrP74eU+PL6zTUUv3yLnO4xKtLdKm3cM7dFmCNy29s6UfD15c6rRfbR6/yc3Z");
-    postGetUserInfo(getUserInfo);
+    //需要添加播放按钮
+    document.getElementById("pause_button").onclick = function() {ksvcPause()};
+    document.getElementById("anchor").onclick = function() {ksvcAnchor()};
+    document.getElementById("download").onclick = function() {ksvcDownload()};
+
+    document.getElementById("pop_close").onclick = function() {ksvcClose()};
+    document.getElementById("pop_down").onclick = function() {ksvcDown()};
+
+
+    postGetToken(getTokenUrl);
+    //initRongIMClient("iyIgQ021S9uSBAKzk6uovkRfKpMf6clJSnaNrP74eU+PL6zTUUv3yLnO4xKtLdKm3cM7dFmCNy29s6UfD15c6rRfbR6/yc3Z");
+    //postGetUserInfo(getUserInfo);
 
     function ksvcPause()
     {
@@ -83,11 +73,19 @@
 
         document.getElementById("pause_button").style.display = "none";
 
-        //{"nodeId":"114","chName":"harry.test"}
-        var url = "http://local.cdn.ksyun.com/index.html#/deviceManage/{ddd/dd}";
-        console.log(url.substring(url.lastIndexOf('{') + 1), url.length);
 
     }
+
+    function getUrl(str, name) {
+        var arr, reg = new RegExp('(^|)' + name + '=([^&\\s]*)(|$)');
+        // window.console.log(reg, str.match(reg));
+        if (arr = str.match(reg)) {
+            return decodeURI(arr[2]);
+        } else {
+            return '';
+        }
+    }
+
 
     function ksvcAnchor()
     {
@@ -121,12 +119,15 @@
 
     //first: 发送请求，获取token和userId，数据从app传来  url, data
     function postGetToken(url) {
-        // 注意在传参数值的时候最好使用encodeURI处理一下，以防出现乱码
 
         var sendData = {
             "BusinessId" : 1000,
             "RoomId": 50,
             "AnchorOpenId": 9
+
+            //"BusinessId" : businessId,
+            //"RoomId": roomId,
+            //"AnchorOpenId": anchorOpenId
         };
 
         console.log(sendData);
@@ -157,8 +158,6 @@
 
                 initRongIMClient(token);
                 postGetUserInfo(getUserInfo);
-
-
 
             } else {
 
@@ -329,6 +328,11 @@
             "RoomId": 50,
             "VisitorOpenId": 9,
             "ClientType":1
+
+            //"BusinessId" : businessId,
+            //"RoomId": roomId,
+            //"VisitorOpenId": visitorOpenId,
+            //"ClientType":clientType
         };
 
         console.log(sendData);
@@ -344,11 +348,10 @@
             if ((xmlrequest.readyState == 4) && (xmlrequest.status == 200)) {
 
                 responseUserData = xmlrequest.responseText;
-
-                var rspData = JSON.parse(responseUserData).RspJson;
-                var rspUserData = JSON.parse(rspData);
-
                 console.log('responseUserData=' + responseUserData);
+                var rspData = JSON.parse(responseUserData).RspJson;
+                console.log(rspUserData);
+                var rspUserData = JSON.parse(rspData);
                 console.log(rspUserData);
 
                 anchorOpenId = rspUserData.AnchorOpenId;
@@ -361,7 +364,7 @@
                 liveType = rspUserData.LiveType;
 
                 document.getElementById("share_video").poster = posterUrl;
-                document.getElementById("share_video").src = pullStreamUrl;
+                document.getElementById("share_video").src = "http://test.live.ks-cdn.com/live/1000_50/index.m3u8";
                 document.getElementById("anchor").src = headPicUrl;
                 document.getElementById("anchor_name").innerHTML = name;
                 document.getElementById("fans_number").innerHTML = roomNumber;
