@@ -50,11 +50,6 @@
     anchorOpenId = Number(anchorOpenId);
     clientType = Number(clientType);
 
-    console.log('businessId >>>>>>' + businessId);
-    console.log('roomId >>>>>>' + roomId);
-    console.log('anchorOpenId >>>>>>' + anchorOpenId);
-    console.log('clientType >>>>>>' + clientType);
-
 
     //需要添加播放按钮
     document.getElementById("pause_button").onclick = function() {ksvcPause()};
@@ -67,10 +62,9 @@
 
     postGetToken(getTokenUrl);
 
+
     function ksvcPause()
     {
-        console.log('lixp ksvcPause .......');
-
         //原生video
         myVideo.play();
 
@@ -78,10 +72,10 @@
 
     }
 
+
     function getUrl(str, name) {
         var arr, reg = new RegExp('(^|)' + name + '=([^&\\s]*)(|$)');
-        // window.console.log(reg, str.match(reg));
-        console.log('reg =' + reg + "<<>>str.match(reg)=" + str.match(reg));
+
         if (arr = str.match(reg)) {
             return decodeURI(arr[2]);
         } else {
@@ -92,7 +86,6 @@
 
     function ksvcAnchor()
     {
-        console.log('lixp ksvcAnchor ......');
 
         document.getElementById("pops").style.display = "block";
 
@@ -101,7 +94,6 @@
 
     function ksvcDownload()
     {
-        console.log('lixp ksvcDownload ......');
         window.open(appDownLoadUrl);
 
     }
@@ -114,7 +106,6 @@
 
     function ksvcDown()
     {
-        console.log('lixp down ..........');
         window.open(appDownLoadUrl);
 
     }
@@ -367,20 +358,17 @@
                 liveType = rspUserData.LiveType;
 
                 document.getElementById("share_video").poster = posterUrl;
-                document.getElementById("share_video").src = "http://test.live.ks-cdn.com/live/1000_50/index.m3u8";
+                document.getElementById("share_video").src = pullStreamUrl;
                 document.getElementById("anchor").src = headPicUrl;
                 document.getElementById("anchor_name").innerHTML = name;
                 document.getElementById("fans_number").innerHTML = roomNumber;
 
                 console.log(document.getElementById("share_video").src);
-                //console.log('anchorOpenId=' + anchorOpenId);
-                //console.log('headPicUrl =' + headPicUrl);
-                //console.log('name =' + name);
-                //console.log('posterUrl =' + posterUrl);
-                //console.log('pullStreamUrl =' + pullStreamUrl);
-                //console.log('appDownLoadUrl =' + appDownLoadUrl);
-                //console.log('liveType =' + liveType);
+                console.log('liveType =' + liveType);
 
+                if (liveType == 2) {
+                    window.location.href="http://www.ksyun.com/";
+                }
 
                 console.log('post second success .. ');
 

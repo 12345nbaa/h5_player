@@ -86,10 +86,6 @@
 
         document.getElementById("pause_button").style.display = "none";
 
-        //{"nodeId":"114","chName":"harry.test"}
-        var url = "http://local.cdn.ksyun.com/index.html#/deviceManage/{ddd/dd}";
-        console.log(url.substring(url.lastIndexOf('{') + 1), url.length);
-
     }
 
     function ksvcAnchor()
