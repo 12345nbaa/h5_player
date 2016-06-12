@@ -357,6 +357,11 @@
                 appDownLoadUrl = rspUserData.AppDownLoadUrl;
                 liveType = rspUserData.LiveType;
 
+                var screenHeight = window.screen.height;
+                console.log('screenHeight =' + screenHeight);
+                document.getElementById("section-height").style.height = screenHeight;
+                document.getElementById("share_video").style.height = screenHeight;
+
                 document.getElementById("share_video").poster = posterUrl;
                 document.getElementById("share_video").src = pullStreamUrl;
                 document.getElementById("anchor").src = headPicUrl;
