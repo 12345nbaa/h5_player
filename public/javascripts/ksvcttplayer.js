@@ -8,6 +8,8 @@
     var getTokenUrl = "http://183.131.21.162:8000/v1.0/account/visitorcreatetoken";
     var getUserInfo = "http://183.131.21.162:8000/v1.0/room/enterroombyh5";
 
+    var appKey = "pkfcgjstf6xs8";
+
     //XMLHttpRequest object
     var xmlrequest;
 
@@ -124,8 +126,6 @@
             "AnchorOpenId": anchorOpenId
         };
 
-        console.log(sendData);
-
         createXMLHttpRequest();
 
         xmlrequest.open("POST", url);
@@ -191,7 +191,7 @@
     // second: init rongyun and connection
     function initRongIMClient(rong_token) {
 
-        RongIMClient.init("lmxuhwagxqugd");
+        RongIMClient.init(appKey);
 
         // 设置连接监听状态 （ status 标识当前连接状态）
         // 连接状态监听器
@@ -329,7 +329,7 @@
             "ClientType":clientType
         };
 
-        console.log(sendData);
+        //console.log(sendData);
 
         createXMLHttpRequest();
 
@@ -344,7 +344,7 @@
                 responseUserData = xmlrequest.responseText;
                 console.log('responseUserData=' + responseUserData);
                 var rspData = JSON.parse(responseUserData).RspJson;
-                console.log(rspUserData);
+
                 var rspUserData = JSON.parse(rspData);
                 console.log(rspUserData);
 
@@ -359,8 +359,15 @@
 
                 var screenHeight = window.screen.height;
                 console.log('screenHeight =' + screenHeight);
-                document.getElementById("section-height").style.height = screenHeight;
-                document.getElementById("share_video").style.height = screenHeight;
+
+                //判断终端的类型
+                var browse = mobileCheck();
+
+                if (browse.ios || browse.iPad || browse.iPhone){
+                    document.getElementById("section-height").style.height = screenHeight;
+                    document.getElementById("share_video").style.height = screenHeight;
+
+                }
 
                 document.getElementById("share_video").poster = posterUrl;
                 document.getElementById("share_video").src = pullStreamUrl;
@@ -385,7 +392,23 @@
     }
 
 
-
-
+    function mobileCheck() {
+        //判断访问终端
+        var u = navigator.userAgent;
+        return {
+            trident: u.indexOf('Trident') > -1,
+            presto: u.indexOf('Presto') > -1,
+            webKit: u.indexOf('AppleWebKit') > -1,
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+            iPhone: u.indexOf('iPhone') > -1,
+            iPad: u.indexOf('iPad') > -1,
+            //webApp: u.indexOf('Safari') =＝ -1,
+            weixin: u.indexOf('MicroMessenger') > -1,
+            qq: u.match(/\sQQ/i) == "qq"
+        }
+    }
 
 
