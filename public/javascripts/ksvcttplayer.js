@@ -4,9 +4,9 @@
 
     var myVideo = document.getElementById("share_video");
 
-    //接口
-    var getTokenUrl = "http://183.131.21.162:8000/v1.0/account/visitorcreatetoken";
-    var getUserInfo = "http://183.131.21.162:8000/v1.0/room/enterroombyh5";
+    //interface
+    var getTokenUrl = "http://183.131.21.161:8000/v1.0/account/visitorcreatetoken";
+    var getUserInfo = "http://183.131.21.161:8000/v1.0/room/enterroombyh5";
 
     var appKey = "pkfcgjstf6xs8";
 
@@ -40,7 +40,6 @@
 
     //get url
     var url = window.location.href;
-    console.log('url =' + url);
 
     businessId = getUrl(url, 'BusinessId');
     roomId = getUrl(url, 'RoomId');
@@ -117,9 +116,6 @@
     function postGetToken(url) {
 
         var sendData = {
-            //"BusinessId" : 1000,
-            //"RoomId": 50,
-            //"AnchorOpenId": 9
 
             "BusinessId" : businessId,
             "RoomId": roomId,
@@ -133,20 +129,17 @@
         xmlrequest.send(JSON.stringify(sendData));
         xmlrequest.onreadystatechange = function() {
 
-            console.log('xmlrequest.readyState =' + xmlrequest.readyState + "－－－－－xmlrequest.status ＝" + xmlrequest.status);
             if ((xmlrequest.readyState == 4) && (xmlrequest.status == 200)) {
 
                 responseTokenData = xmlrequest.responseText;
-                console.log('responseTokenData 1111 =' + responseTokenData);
+                //console.log('responseTokenData 1111 =' + responseTokenData);
 
                 var responseData = JSON.parse(responseTokenData).RspJson;
                 var responseRspData = JSON.parse(responseData);
-                console.log('responseData=' + responseData);
 
                 visitorOpenId = responseRspData.VisitorOpenId;
                 token = responseRspData.Token;
 
-                console.log('visitorOpenId =' + visitorOpenId);
                 console.log('post first success .. ');
 
 
@@ -279,7 +272,6 @@
 
         //通过token建立连接
         var token = rong_token;
-        console.log('token =' + token);
 
         // 连接融云服务器。
         RongIMClient.connect(token, {
@@ -318,18 +310,12 @@
     function postGetUserInfo(url) {
 
         var sendData = {
-            //"BusinessId" : 1000,
-            //"RoomId": 50,
-            //"VisitorOpenId": 9,
-            //"ClientType":1
 
             "BusinessId" : businessId,
             "RoomId": roomId,
             "VisitorOpenId": visitorOpenId,
             "ClientType":clientType
         };
-
-        //console.log(sendData);
 
         createXMLHttpRequest();
 
@@ -338,15 +324,12 @@
         xmlrequest.send(JSON.stringify(sendData));
         xmlrequest.onreadystatechange = function() {
 
-            console.log('xmlrequest.readyState =' + xmlrequest.readyState + "－－－－－xmlrequest.status ＝" + xmlrequest.status);
             if ((xmlrequest.readyState == 4) && (xmlrequest.status == 200)) {
 
                 responseUserData = xmlrequest.responseText;
-                console.log('responseUserData=' + responseUserData);
+                //console.log('responseUserData=' + responseUserData);
                 var rspData = JSON.parse(responseUserData).RspJson;
-
                 var rspUserData = JSON.parse(rspData);
-                console.log(rspUserData);
 
                 anchorOpenId = rspUserData.AnchorOpenId;
                 headPicUrl = rspUserData.Url;
@@ -358,15 +341,17 @@
                 liveType = rspUserData.LiveType;
 
                 var screenHeight = window.screen.height;
-                console.log('screenHeight =' + screenHeight);
 
                 //判断终端的类型
                 var browse = mobileCheck();
 
-                if (browse.ios || browse.iPad || browse.iPhone){
+                if (browse.ios || browse.iPad || browse.iPhone || browse.mobile || browse.android){
                     document.getElementById("section-height").style.height = screenHeight;
                     document.getElementById("share_video").style.height = screenHeight;
 
+                } else {
+
+                    window.location.href="http://www.ksyun.com/";
                 }
 
                 document.getElementById("share_video").poster = posterUrl;
@@ -375,9 +360,7 @@
                 document.getElementById("anchor_name").innerHTML = name;
                 document.getElementById("fans_number").innerHTML = roomNumber;
 
-                console.log(document.getElementById("share_video").src);
-                console.log('liveType =' + liveType);
-
+                //living over
                 if (liveType == 2) {
                     window.location.href="http://www.ksyun.com/";
                 }
